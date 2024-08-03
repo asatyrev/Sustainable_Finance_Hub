@@ -1,3 +1,4 @@
+from pyscript import document
 import requests
 
 def nstock(date):
@@ -24,5 +25,8 @@ def nstock(date):
 
     return prices
 
-date = "2024-04-01"
-print(nstock(date))
+def getdate(event):
+    input_text = document.querySelector("#date")
+    date = input_text.value
+    output_div = document.querySelector("#output")
+    output_div.innerText = nstock(date)
