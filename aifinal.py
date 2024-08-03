@@ -39,7 +39,7 @@ def get_date():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global symbols
-    date = get_date()
+    date = '2024-06-03'  # Default date
 
     if request.method == 'POST':
         date = request.form.get('date')
@@ -51,9 +51,19 @@ def index():
     prices = nstock(date)
 
     return render_template_string('''
+        <!DOCTYPE html>
         <html>
+        <head>
+            <title>Stock Prices</title>
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+            <script>
+                function openNewTab() {
+                    window.open("{{ url_for('new_page') }}", "_blank");
+                }
+            </script>
+        </head>
         <body>
-            <h1>AI</h1>
+            <h1>Response from Generative Model</h1>
             <pre>{{ response_text }}</pre>
             <h2>Stock Prices for {{ selected_date }}</h2>
             <ul>
@@ -66,12 +76,71 @@ def index():
                 <input type="date" id="date" name="date" value="{{ selected_date }}">
                 <input type="submit" value="Submit">
             </form>
+            <button onclick="openNewTab()">Open New Tab</button>
         </body>
         </html>
         ''', response_text=response.text, stock_prices=zip(symbols, prices), selected_date=date)
 
+@app.route('/new-page')
+def new_page():
+    return render_template_string('''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>Carbon Footprint Tracker</title>
+    </head>
+    <body>
+        <h1 id="Title">Carbon Footprint Calculator</h1>
+        <div id="explanation">
+            <div class="text-content">
+                <p>
+                    Understanding your carbon footprint is crucial in making informed decisions about how to reduce your impact on the environment. A carbon footprint measures the total amount of greenhouse gases emitted into the atmosphere as a result of various activities, including electricity usage, transportation, and more. By tracking and managing your carbon footprint, you contribute to the fight against climate change and work towards a more sustainable future. Below is a calculator to track your carbon footprint and based on your data, there will be some tips on how to lower your footprint!
+                </p>
+            </div>
+        </div>
+        <div class="form-container">
+            <div class="input-container" id="electricity">
+                <label>Electricity bill per month</label>
+                <input type="number" placeholder="Enter amount in dollars">
+            </div>
+            <div class="input-container" id="gas">
+                <label>Gas bill per month</label>
+                <input type="number" placeholder="Enter amount in dollars">
+            </div>
+            <div class="input-container" id="mileage">
+                <label>Total mileage on vehicles</label>
+                <input type="number" placeholder="Enter total miles">
+            </div>
+            <div class="input-container" id="flights">
+                <label>Total amount of flights in the past year</label>
+                <input type="number" placeholder="Enter number of flights">
+            </div>
+            <div class="input-container" id="water">
+                <label>Monthly water usage (in gallons)</label>
+                <input type="number" placeholder="Enter amount in gallons">
+            </div>
+            <div class="input-container" id="food">
+                <label>Monthly food consumption (estimate in USD)</label>
+                <input type="number" placeholder="Enter amount in dollars">
+            </div>
+            <div id="calculate">
+                <button type="submit">Calculate</button>
+            </div>
+            <div id="results">
+                <p id="result-text">Your results will appear here.</p>
+            </div>        
+        </div>
+        <script src="{{ url_for('static', filename='js/carbon.js') }}"></script>
+    </body>
+    </html>
+    ''')
+
+
+
 def nstock(date):
-    api_key = 'u6iWVDmkSjt5Fhr3zoAko3jCatFP0QJJ'
+    api_key = 'wWPzRxLBLljM3EM8429ir8zpcxTC1Qtz' ## u6iWVDmkSjt5Fhr3zoAko3jCatFP0QJJ
     prices = []
 
     for symbol in symbols:
