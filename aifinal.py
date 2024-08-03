@@ -132,11 +132,15 @@ def new_page():
                 <p id="result-text">Your results will appear here.</p>
             </div>        
         </div>
-        <script src="{{ url_for('static', filename='js/carbon.js') }}"></script>
+        <button onclick="openOriginalPage()">Back to Original Page</button>
+        <script>
+            function openOriginalPage() {
+                window.open("{{ url_for('index') }}", "_blank");
+            }
+        </script>
     </body>
     </html>
     ''')
-
 
 
 def nstock(date):
