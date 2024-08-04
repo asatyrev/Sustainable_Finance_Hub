@@ -1,6 +1,6 @@
-# environment
-
-# Eco Tracker
-
-python -m http.server
-http://localhost:8000
+# Sustainable Finance Hub
+### Environment TerraHacks 2024
+## Features
+- Connected to Gemini and FMP
+- Provides random eco friendly stocks
+- Offers a carbon emission calculator
