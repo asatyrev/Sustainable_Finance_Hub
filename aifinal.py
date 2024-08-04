@@ -70,14 +70,16 @@ def index():
             {% endfor %}
         </ul>
 
-        <p>{{ response_text }}</p>
+        <p id="resp">{{ response_text }}</p>
 
         <form method="post" class="form-container">
+            <div class="form-controls">
             <label for="date">Select Date:</label>
             <input type="date" id="date" name="date" value="{{ selected_date }}">
             <input type="submit" value="Submit">
-        </form>
-        <button onclick="location.href='{{ url_for('new_page') }}'">Go To Carbon Calculator</button>
+        </div>
+        <button type="button" onclick="window.location.href='{{ url_for('new_page') }}'">Go To Carbon Calculator</button>
+    </form>
         </div>
         </body>
         </html>
@@ -97,7 +99,7 @@ def new_page():
     <body>
         <h1 id="Title">Carbon Footprint Calculator</h1>
         <div id="explanation">
-            <img id="photo" src="static\terrahacks.jpg" alt="Photo of an image">
+            <img id="photo" src="{{ url_for('static', filename='terrahacks.jpg') }}" alt="Photo of an image">
             <div class="text-content">
                 <p>
                     Understanding your carbon footprint is crucial in making informed decisions about how to reduce your impact on the environment. A carbon footprint measures the total amount of greenhouse gases emitted into the atmosphere as a result of various activities, including electricity usage, transportation, and more. By tracking and managing your carbon footprint, you contribute to the fight against climate change and work towards a more sustainable future. Below is a calculator to track your carbon footprint and based on your data, there will be some tips on how to lower your footprint!
@@ -126,7 +128,7 @@ def new_page():
                 <input type="number" placeholder="Enter amount in gallons">
             </div>
             <div class="input-container" id="food">
-                <label>Monthly food consumption (estimate in USD)</label>
+                <label>Monthly food consumption</label>
                 <input type="number" placeholder="Enter amount in dollars">
             </div>
             <div id="calculate">
