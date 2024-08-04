@@ -47,6 +47,7 @@ def index():
     chat_session = model.start_chat(history=[])
     response = chat_session.send_message("can you give me the most eco friendly companies in this format: ['NVDA', 'AAPL', 'AMZN', 'META'] (replace them with the company tags) please dont say anything else apart from this")
     symbols = eval(response.text)
+    response2 = chat_session.send_message(f"{response} you chose these companies as the most eco friendly can you give me a short paragraph of about 100 words on why you think so")
     
     prices = nstock(date)
 
@@ -59,7 +60,7 @@ def index():
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
         </head>
         <body>
-        <h1 id="Title">Response from Generative Model</h1>
+        <h1 id="Title">Response from Gemini and FMP</h1>
         <div class="content-container">
         
         <h2>Stock Prices for {{ selected_date }}</h2>
@@ -68,6 +69,9 @@ def index():
                 <li>{{ symbol }}: {{ price }}</li>
             {% endfor %}
         </ul>
+
+        <p>{{ response_text }}</p>
+
         <form method="post" class="form-container">
             <label for="date">Select Date:</label>
             <input type="date" id="date" name="date" value="{{ selected_date }}">
@@ -77,8 +81,8 @@ def index():
         </div>
         </body>
         </html>
+    ''', response_text=response2.text, stock_prices=zip(symbols, prices), selected_date=date)
 
-        ''', response_text=response.text, stock_prices=zip(symbols, prices), selected_date=date)
 
 @app.route('/new-page')
 def new_page():
@@ -133,6 +137,7 @@ def new_page():
             </div>        
         </div>
         <button onclick="location.href='{{ url_for('index') }}'">Go to Eco Stocks</button>
+        <script src="{{ url_for('static', filename='js/carbon.js') }}"></script>
     </body>
     </html>
     ''')
