@@ -45,40 +45,39 @@ def index():
         date = request.form.get('date')
         
     chat_session = model.start_chat(history=[])
-    response = chat_session.send_message("can you give me the most eco friendly companies in this format: ['NVDA', 'AAPL', 'AMZN', 'META'] (replace them with the company tags) please dont say anything else apart form this")
+    response = chat_session.send_message("can you give me the most eco friendly companies in this format: ['NVDA', 'AAPL', 'AMZN', 'META'] (replace them with the company tags) please dont say anything else apart from this")
     symbols = eval(response.text)
     
     prices = nstock(date)
 
     return render_template_string('''
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
         <head>
-            <title>Stock Prices</title>
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-            <script>
-                function openNewTab() {
-                    window.open("{{ url_for('new_page') }}", "_blank");
-                }
-            </script>
+        <meta charset="UTF-8">
+        <title>Stock Prices</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
         </head>
         <body>
-            <h1>Response from Generative Model</h1>
-            <pre>{{ response_text }}</pre>
-            <h2>Stock Prices for {{ selected_date }}</h2>
-            <ul>
-                {% for symbol, price in stock_prices %}
-                    <li>{{ symbol }}: {{ price }}</li>
-                {% endfor %}
-            </ul>
-            <form method="post">
-                <label for="date">Select Date:</label>
-                <input type="date" id="date" name="date" value="{{ selected_date }}">
-                <input type="submit" value="Submit">
-            </form>
-            <button onclick="openNewTab()">Open New Tab</button>
+        <h1 id="Title">Response from Generative Model</h1>
+        <div class="content-container">
+        
+        <h2>Stock Prices for {{ selected_date }}</h2>
+        <ul>
+            {% for symbol, price in stock_prices %}
+                <li>{{ symbol }}: {{ price }}</li>
+            {% endfor %}
+        </ul>
+        <form method="post" class="form-container">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" value="{{ selected_date }}">
+            <input type="submit" value="Submit">
+        </form>
+        <button onclick="location.href='{{ url_for('new_page') }}'">Go To Carbon Calculator</button>
+        </div>
         </body>
         </html>
+
         ''', response_text=response.text, stock_prices=zip(symbols, prices), selected_date=date)
 
 @app.route('/new-page')
@@ -94,6 +93,7 @@ def new_page():
     <body>
         <h1 id="Title">Carbon Footprint Calculator</h1>
         <div id="explanation">
+            <img id="photo" src="static\terrahacks.jpg" alt="Photo of an image">
             <div class="text-content">
                 <p>
                     Understanding your carbon footprint is crucial in making informed decisions about how to reduce your impact on the environment. A carbon footprint measures the total amount of greenhouse gases emitted into the atmosphere as a result of various activities, including electricity usage, transportation, and more. By tracking and managing your carbon footprint, you contribute to the fight against climate change and work towards a more sustainable future. Below is a calculator to track your carbon footprint and based on your data, there will be some tips on how to lower your footprint!
@@ -132,12 +132,7 @@ def new_page():
                 <p id="result-text">Your results will appear here.</p>
             </div>        
         </div>
-        <button onclick="openOriginalPage()">Back to Original Page</button>
-        <script>
-            function openOriginalPage() {
-                window.open("{{ url_for('index') }}", "_blank");
-            }
-        </script>
+        <button onclick="location.href='{{ url_for('index') }}'">Go to Eco Stocks</button>
     </body>
     </html>
     ''')

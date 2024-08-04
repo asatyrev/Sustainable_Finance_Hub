@@ -1,18 +1,47 @@
-/* static/css/styles.css */
-
+/* General styling */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f5f5f5; /* Light gray background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-h1 {
-    color: #333;
+h1#Title {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+}
+
+/* Content container */
+.content-container {
+    background-color: #fff; /* White background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top: 20px;
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+pre {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap; /* Enable text wrapping */
+    word-wrap: break-word; /* Ensure long words break and wrap */
 }
 
 h2 {
-    color: #555;
+    color: #333;
+    margin-top: 20px;
 }
 
 ul {
@@ -21,30 +50,57 @@ ul {
 }
 
 li {
-    background-color: #fff;
+    background-color: #f9f9f9;
     margin: 5px 0;
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-form {
+/* Form container */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
 }
 
+label {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
 input[type="date"] {
-    padding: 5px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
 }
 
-input[type="submit"] {
-    padding: 5px 15px;
-    background-color: #007bff;
+input[type="submit"], button {
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    color: #fff;
-    border-radius: 4px;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-input[type="submit"]:hover {
-    background-color: #0056b3;
+/* Button hover effects */
+input[type="submit"]:hover, button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Button focus styles */
+input[type="submit"]:focus, button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
